@@ -67,7 +67,7 @@ IL_EX_Draw(ILID, Index, HWND, X := 0, Y := 0, Styles := 0x20) {
 ;                 image list. Overlay images are not copied.
 ; ======================================================================================================================
 IL_EX_Duplicate(ILID) {
-   Return DllCall("Comctl32.dll\ImageList_Duplicate", "Ptr", HIML, "UPtr")
+   Return DllCall("Comctl32.dll\ImageList_Duplicate", "Ptr", ILID, "UPtr")
 }
 ; ======================================================================================================================
 ; IL_EX_GetHICON(ILID, Index[, Styles := 0x00])
@@ -153,7 +153,7 @@ IL_EX_ReplaceIcon(ILID, Index, HICON) {
 ; ======================================================================================================================
 IL_EX_SetBkColor(ILID, BkColor := 0xFFFFFF) {
    If (BkColor <> 0xFFFFFF) && (BkColor <> 0xFFFFFFFF) && (BkColor <> 0xFF000000)
-      Color := ((BkColor & 0xFF0000) >> 16) | (BkColor & 0x00FF00) | ((BkColor & 0x0000FF) << 16)
+      BkColor := ((BkColor & 0xFF0000) >> 16) | (BkColor & 0x00FF00) | ((BkColor & 0x0000FF) << 16)
    Return DllCall("ComCtl32.dll\ImageList_SetBkColor", "Ptr", ILID, "UInt", BkColor, "UInt")
 }
 ; ======================================================================================================================
