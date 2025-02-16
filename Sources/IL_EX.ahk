@@ -1,7 +1,7 @@
 ﻿; ======================================================================================================================
 ; Function:         Additional functions for ImageLists.
-; Tested with:      AHK 1.1.13.01 (A32/U32/U64)
-; Tested on:        Win 7 (x64)
+; Tested with:      AHK 2.0.10
+; Tested on:        Win 10 (x64)
 ; Changelog:
 ;     1.0.00.00/2014-01-04/just me
 ; Common Parameters:
@@ -67,7 +67,7 @@ IL_EX_Draw(ILID, Index, HWND, X := 0, Y := 0, Styles := 0x20) {
 ;                 image list. Overlay images are not copied.
 ; ======================================================================================================================
 IL_EX_Duplicate(ILID) {
-   Return DllCall("Comctl32.dll\ImageList_Duplicate", "Ptr", HIML, "UPtr")
+   Return DllCall("Comctl32.dll\ImageList_Duplicate", "Ptr", ILID, "UPtr")
 }
 ; ======================================================================================================================
 ; IL_EX_GetHICON(ILID, Index[, Styles := 0x00])
@@ -97,7 +97,7 @@ IL_EX_GetImageCount(ILID) {
 ; Return values:  Returns nonzero if successful, or zero otherwise.
 ; MSDN:           http://msdn.microsoft.com/en-us/library/bb761550(v=vs.85).aspx
 ; ======================================================================================================================
-IL_EX_GetSize(ILID, ByRef W, ByRef H) {
+IL_EX_GetSize(ILID, &W, &H) {
    Return DllCall("ComCtl32.dll\ImageList_GetIconSize", "Ptr", ILID, "IntP", W, "IntP", H, "UPtr")
 }
 ; ======================================================================================================================
@@ -152,8 +152,8 @@ IL_EX_ReplaceIcon(ILID, Index, HICON) {
 ;                 Without a mask, the entire image is drawn; hence the background color is not visible.
 ; ======================================================================================================================
 IL_EX_SetBkColor(ILID, BkColor := 0xFFFFFF) {
-   If (BkColor <> 0xFFFFFF) && (BkColor <> 0xFFFFFFFF) && (BkColor <> 0xFF000000)
-      Color := ((BkColor & 0xFF0000) >> 16) | (BkColor & 0x00FF00) | ((BkColor & 0x0000FF) << 16)
+   If (BkColor != 0xFFFFFF) && (BkColor != 0xFFFFFFFF) && (BkColor != 0xFF000000)
+      BkColor := ((BkColor & 0xFF0000) >> 16) | (BkColor & 0x00FF00) | ((BkColor & 0x0000FF) << 16)
    Return DllCall("ComCtl32.dll\ImageList_SetBkColor", "Ptr", ILID, "UInt", BkColor, "UInt")
 }
 ; ======================================================================================================================
